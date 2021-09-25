@@ -87,17 +87,17 @@ class _PriceScreenState extends State<PriceScreen> {
         children: <Widget>[
           CryptoCard(
             cruptoCurrency: 'BTC',
-            value: isWaiting ? '?' : coinValues['BTC']!,
+            value: isWaiting ? '____' : coinValues['BTC']!,
             selectedCurrency: selectedCurrency,
           ),
           CryptoCard(
             cruptoCurrency: 'ETH',
-            value: isWaiting ? '?' : coinValues['ETH']!,
+            value: isWaiting ? '____' : coinValues['ETH']!,
             selectedCurrency: selectedCurrency,
           ),
           CryptoCard(
             cruptoCurrency: 'LTC',
-            value: isWaiting ? '?' : coinValues['LTC']!,
+            value: isWaiting ? '____' : coinValues['LTC']!,
             selectedCurrency: selectedCurrency,
           ),
           Container(
