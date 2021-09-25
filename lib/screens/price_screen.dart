@@ -1,9 +1,7 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import '/coin_data.dart';
+import '../data/coin_data.dart';
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({Key? key}) : super(key: key);
@@ -34,6 +32,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedCurrency = value!;
+          getData();
         });
       },
     );
@@ -50,6 +49,25 @@ class _PriceScreenState extends State<PriceScreen> {
       onSelectedItemChanged: (index) {},
       children: pickerItems,
     );
+  }
+
+  double bitcoinToUsd = 0;
+
+  void getData() async {
+    try {
+      var data = await CoinData().getCoinData(selectedCurrency);
+      setState(() {
+        bitcoinToUsd = data.round();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
   }
 
   @override
@@ -71,12 +89,12 @@ class _PriceScreenState extends State<PriceScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $bitcoinToUsd $selectedCurrency',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
                   ),
@@ -89,7 +107,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 30.0),
             color: Colors.teal,
-            child: Platform.isIOS ? getIosPicker() : getAndroidDropdown(),
+            child: getAndroidDropdown(),
           ),
         ],
       ),
